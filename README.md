@@ -29,9 +29,9 @@
 ### Memory Hierarchy
 根據希望給誰用，分成三個層級：
 
-1. `Per-thread Local Memory`: 在某一個 thread裡面，只有該 thread 可以用。
-2. `Per-block Shared Memory`: 該 block 裡面的所有 thread 都可以 access。
-3. `Per-device Global Memory`: 跨 kernel 的運算、當 kernel 之間有 dependency 時，就可以把結果存在 global memory，提供所有人用。 global memory 跟 process 共同存在，只要 process 沒有被 free 掉， global memory 就存在。
+    1. `Per-thread Local Memory`: 在某一個 thread裡面，只有該 thread 可以用。
+    2. `Per-block Shared Memory`: 該 block 裡面的所有 thread 都可以 access。
+    3. `Per-device Global Memory`: 跨 kernel 的運算、當 kernel 之間有 dependency 時，就可以把結果存在 global memory，提供所有人用。 global memory 跟 process 共同存在，只要 process 沒有被 free 掉， global memory 就存在。
 
 
 ### CUDA Language
@@ -39,33 +39,33 @@
 ![func](./imgs/func.png)
 
 * Thread and Block IDs
-- kernel, block, 都可以是 3 維的，會用 `dim3` 來描述它的大小，再當作 kernel 的設定參數。
-Example:
-```
-dim3 grid(3,2);
-dim3 blk(5,3);
-my_kernel<<< grid, blk >>>();
-```
--  每個 thread 都會有一個 unique ID，根據你如何定義 kernel 跟 block 而改變
-![threadID](./imgs/threadID.png)
-1. 因為所有 thread 都在同一個 block 裡面，所以 i = threadIdx
-2. 因為所有 block 裡都只有一個 thead，所以 i = blockIdx
-3. 最 general 的情況： i = blockIdx * blockDim + threadIdx
+    - kernel, block, 都可以是 3 維的，會用 `dim3` 來描述它的大小，再當作 kernel 的設定參數。
+    Example:
+    ```
+    dim3 grid(3,2);
+    dim3 blk(5,3);
+    my_kernel<<< grid, blk >>>();
+    ```
+    -  每個 thread 都會有一個 unique ID，根據你如何定義 kernel 跟 block 而改變
+    ![threadID](./imgs/threadID.png)
+    1. 因為所有 thread 都在同一個 block 裡面，所以 i = threadIdx
+    2. 因為所有 block 裡都只有一個 thead，所以 i = blockIdx
+    3. 最 general 的情況： i = blockIdx * blockDim + threadIdx
 
 
 * Function Qualifiers
 讓 compiler 知道要不要 generate 這個 function，要不要 load 到 GPU。
 
-- `__device__`: 在 device execute, 只能在 device call。只能在 GPU call
-- `__global__`: 在 device execute, 只能在 host call。由他進入GPU
-- `__host__`  : 在 host execute, 只能在 host call 。只能在 CPU call。
-- 沒有指定     : 在 host compile
+    - `__device__`: 在 device execute, 只能在 device call。只能在 GPU call
+        - `__global__`: 在 device execute, 只能在 host call。由他進入GPU
+    - `__host__`  : 在 host execute, 只能在 host call 。只能在 CPU call。
+    - 沒有指定     : 在 host compile
 
 * Variable Type Qualifiers 
 
-- `__device__`  : 就是在 Global mem。
-- `__constant__`: 跟 global 類似，但是 read only。 Run time 不能修改。速度會比較快。會做 Caching。
-- `__shared__`  : 在 Shared mem 裡面。 lifetime 跟隨著 block， block 執行完就沒了。
+    - `__device__`  : 就是在 Global mem。
+    - `__constant__`: 跟 global 類似，但是 read only。 Run time 不能修改。速度會比較快。會做 Caching。
+    - `__shared__`  : 在 Shared mem 裡面。 lifetime 跟隨著 block， block 執行完就沒了。
 
 
 
