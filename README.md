@@ -53,11 +53,11 @@
     3. 最 general 的情況： i = blockIdx * blockDim + threadIdx
 
 
-* Function Qualifiers
+* Function Qualifiers:
 讓 compiler 知道要不要 generate 這個 function，要不要 load 到 GPU。
 
     - `__device__`: 在 device execute, 只能在 device call。只能在 GPU call
-        - `__global__`: 在 device execute, 只能在 host call。由他進入GPU
+    - `__global__`: 在 device execute, 只能在 host call。由他進入GPU
     - `__host__`  : 在 host execute, 只能在 host call 。只能在 CPU call。
     - 沒有指定     : 在 host compile
 
