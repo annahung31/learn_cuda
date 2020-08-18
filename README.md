@@ -1,7 +1,7 @@
 # learn_cuda
 
 
-#Notes
+# Notes
 ### Terminology
 ![terms](./imgs/terms.png)
 
