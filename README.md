@@ -69,6 +69,11 @@
 
 
 
+* Operations
+    從這裡開始：https://youtu.be/cxdWjRzGNSk?t=488 
+
+
+
 ### Compile the code
 ```
 nvcc -o kernel kernel.cu
