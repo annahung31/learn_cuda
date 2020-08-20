@@ -1,11 +1,11 @@
 
 
 
-### Terminology
-![terms](./imgs/terms.png)
+## Terminology
+![terms](./imgs/terms.png)  
 
-### Kernel, blocks, threads
-* 架構層級： kernel > blocks > threads
+## Kernel, blocks, threads
+架構層級： kernel > blocks > threads  
     - threads are grouped into thread `blocks`.
     - `kernel` = `grid`
     - 一個 kernel 裡面包含 N 個 blocks, 每個 block 裡面有 k 個 threads。
@@ -17,7 +17,7 @@
     ```
     - blocks 之間是互相獨立的。被 assign 到的 processor 位置也不一定照順序。**blocks 沒辦法被同步化**，跨 processor 沒有任何同步機制。
 
-* kernel 的呼叫方式： `my_kernel<<< N_blocks, N_threads_in_a_block >>>`
+### kernel 的呼叫方式： `my_kernel<<< N_blocks, N_threads_in_a_block >>>`
   - `my_kernel<<<1, 100>>>(A)` : 只有一個 block， 100 個 thread 全部放在裡面。
         - 好處：100 個 thread 可以同時做 synchronization，也可以用 shared mem 讓這些 thread 溝通。
   - `my_kernel<<<100, 1>>>(A)` : 有 100 個 block，每個 block 裡面都只有一個 thread。
@@ -25,7 +25,7 @@
         - 一般會拆成 32 來用，以 wap 為單位。
 
 
-### Memory Hierarchy
+## Memory Hierarchy
 根據希望給誰用，分成三個層級：
 
     1. `Per-thread Local Memory`: 在某一個 thread裡面，只有該 thread 可以用。
@@ -33,34 +33,34 @@
     3. `Per-device Global Memory`: 跨 kernel 的運算、當 kernel 之間有 dependency 時，就可以把結果存在 global memory，提供所有人用。 global memory 跟 process 共同存在，只要 process 沒有被 free 掉， global memory 就存在。
 
 
-### CUDA Language
-* Basic functions:
+## CUDA Language
+### Basic functions:  
 ![func](./imgs/func.png)
 
-* Thread and Block IDs
+### Thread and Block IDs  
     - kernel, block, 都可以是 3 維的，會用 `dim3` 來描述它的大小，再當作 kernel 的設定參數。
-    Example:
+    Example:  
     ```
     dim3 grid(3,2);
     dim3 blk(5,3);
     my_kernel<<< grid, blk >>>();
     ```
     -  每個 thread 都會有一個 unique ID，根據你如何定義 kernel 跟 block 而改變
-    ![threadID](./imgs/threadID.png)
+    ![threadID](./imgs/threadID.png)  
     1. 因為所有 thread 都在同一個 block 裡面，所以 i = threadIdx
     2. 因為所有 block 裡都只有一個 thead，所以 i = blockIdx
     3. 最 general 的情況： i = blockIdx * blockDim + threadIdx
 
 
-* Function Qualifiers:
-讓 compiler 知道要不要 generate 這個 function，要不要 load 到 GPU。
+### Function Qualifiers:  
+讓 compiler 知道要不要 generate 這個 function，要不要 load 到 GPU。  
 
     - `__device__`: 在 device execute, 只能在 device call。只能在 GPU call
     - `__global__`: 在 device execute, 只能在 host call。由他進入GPU
     - `__host__`  : 在 host execute, 只能在 host call 。只能在 CPU call。
     - 沒有指定     : 在 host compile
 
-* Variable Type Qualifiers 
+### Variable Type Qualifiers  
 
     - `__device__`  : 就是在 Global mem。
     - `__constant__`: 跟 global 類似，但是 read only。 Run time 不能修改。速度會比較快。會做 Caching。
