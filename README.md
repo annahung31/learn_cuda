@@ -5,8 +5,8 @@ See some [notes](lecture_notes.md) of [平行程式](https://youtu.be/t_q0Tajpys
 
 # Case study
 
-[Case 1](case_study_1.cu): Cupy variables onto/off GPU.
-[Case 2](case_study_2.cu): How to index the threads.
+[Case 1](case_study_1.cu): Cupy variables onto/off GPU.  
+[Case 2](case_study_2.cu): How to index the threads.  
 
 
 ### Compile the code
