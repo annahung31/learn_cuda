@@ -1,5 +1,3 @@
-# learn_cuda
-
 
 # Notes
 See some [notes](lecture_notes.md) of [平行程式](https://youtu.be/t_q0Tajpyso)
